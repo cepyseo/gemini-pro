@@ -5,8 +5,10 @@ publish = "public"
 
 [functions]
 node_bundler = "esbuild"
+included_files = ["netlify/functions/**/*"]
 
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/chat/:splat"
-  status = 200 
+  status = 200
+  force = true 

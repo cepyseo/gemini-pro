@@ -7,12 +7,13 @@ exports.handler = async (event) => {
   try {
     // URL'den prompt'u al
     const path = event.path;
+    // /.netlify/functions/chat/merhaba formatından prompt'u çıkar
     const prompt = path.split('/').pop();
 
-    if (!prompt) {
+    if (!prompt || prompt === 'chat') {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "Prompt gerekli" })
+        body: JSON.stringify({ error: "Lütfen bir mesaj girin. Örnek: /merhaba" })
       };
     }
 
@@ -28,7 +29,8 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-cache"
       },
       body: JSON.stringify({
         success: true,
@@ -40,6 +42,7 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
+    console.error('Error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({
